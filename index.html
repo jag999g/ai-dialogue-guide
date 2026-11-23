@@ -353,7 +353,7 @@
                     <button onclick="switchLesson('b3')" class="bg-cardBg p-4 rounded-xl border border-sand hover:border-sage text-left transition-colors">
                         <span class="block text-xs font-semibold text-terracotta uppercase">Куда зайти</span>
                         <span class="block font-serif font-bold text-charcoal mt-1">Выбор сервиса для старта</span>
-                        <span class="block text-xs text-slateOlive mt-1">DeepSeek, Claude, ChatGPT или Qwen</span>
+                        <span class="block text-xs text-slateOlive mt-1">DeepSeek, Claude, Gemini, ChatGPT или Qwen</span>
                     </button>
                     <button onclick="switchLesson('b6')" class="bg-cardBg p-4 rounded-xl border border-sand hover:border-sage text-left transition-colors">
                         <span class="block text-xs font-semibold text-terracotta uppercase">Приватность</span>
@@ -564,6 +564,16 @@
 
                         <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
                             <div class="flex items-center justify-between">
+                                <h4 class="font-serif font-bold text-lg text-indigo-800">Gemini</h4>
+                                <span class="text-xs px-2 py-0.5 rounded bg-indigo-50 text-indigo-800 font-medium">Широкий кругозор</span>
+                            </div>
+                            <p class="text-xs text-slateOlive leading-relaxed">
+                                Уверенно держит длинные разговоры и большие документы, работает не только с текстом, но и с изображениями, таблицами и аудио. Хорош для разбора сложных тем, сопоставления разных точек зрения и системного планирования.
+                            </p>
+                        </div>
+
+                        <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                            <div class="flex items-center justify-between">
                                 <h4 class="font-serif font-bold text-lg text-slate-800">ChatGPT</h4>
                                 <span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-800 font-medium">Универсальный</span>
                             </div>
@@ -583,11 +593,49 @@
                         </div>
                     </div>
 
+                    <div class="space-y-3 pt-2">
+                        <h4 class="font-serif font-bold text-base text-charcoal">Особый формат: работа с источниками</h4>
+                        <p class="text-sm text-slateOlive leading-relaxed">
+                            Эти два сервиса работают немного иначе, чем привычный чат, — и могут оказаться очень полезными для тех, кто работает с документами и источниками.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <h5 class="font-serif font-bold text-base text-sage">Gemini Notebook (NotebookLM)</h5>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-sage-50 text-sage font-medium">Диалог по вашим материалам</span>
+                                </div>
+                                <p class="text-xs text-slateOlive leading-relaxed">
+                                    Это не обычный чат, а личная исследовательская тетрадь. Вы загружаете свои статьи, конспекты, книги или записи — и обсуждаете их с ИИ. Он отвечает строго с опорой на ваши файлы и показывает, из какого фрагмента взята мысль, что сводит к минимуму риск выдуманных фактов.
+                                </p>
+                            </div>
+                            <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <h5 class="font-serif font-bold text-base text-terracotta">Perplexity</h5>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-terracotta/10 text-terracotta font-medium">Поиск с проверкой источников</span>
+                                </div>
+                                <p class="text-xs text-slateOlive leading-relaxed">
+                                    Сочетает живой диалог с поиском по открытому интернету: собирает взвешенный ответ и рядом к каждому утверждению прикрепляет ссылку на первоисточник, которую можно сразу проверить.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="bg-warmCard p-6 rounded-2xl border border-sand space-y-3">
                         <h4 class="font-serif font-bold text-base text-charcoal"> Нужно ли сразу платить за подписку?</h4>
                         <p class="text-sm text-slateOlive leading-relaxed">
                             <strong>Нет, категорически не нужно.</strong> Бесплатных возможностей современных моделей хватает для 95% задач: написания текстов, анализа документов, планирования и поиска идей. Переходить на платные тарифы стоит только тогда, когда вам регулярно не хватает лимитов или нужны специализированные функции.
                         </p>
+                    </div>
+
+                    <div class="rounded-2xl border border-sand p-5 space-y-3">
+                        <h4 class="font-serif font-bold text-base text-charcoal">Кого ещё стоит знать</h4>
+                        <p class="text-sm text-slateOlive leading-relaxed">
+                            Если захочется посмотреть шире — вот ещё два собеседника, которые хорошо дополняют картину:
+                        </p>
+                        <ul class="text-sm text-slateOlive space-y-2 list-disc pl-5">
+                            <li><strong>Kimi</strong> — силён в чтении и разборе очень объёмных документов и отчётов целиком, внимательно удерживает мелкие детали в длинном тексте.</li>
+                            <li><strong>Mistral</strong> — европейская модель со сдержанным, лаконичным стилем; особенно хорошо чувствует европейские языки и отвечает без лишней многословности.</li>
+                        </ul>
                     </div>
 
                     <div class="border-t border-sand pt-6 space-y-2">
