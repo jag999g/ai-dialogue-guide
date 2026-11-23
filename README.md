@@ -25,9 +25,10 @@ python -m http.server 8000
 
 ## Публикация
 
+Сайт опубликован на GitHub Pages и доступен по адресу:
+[https://jag999g.github.io/ai-dialogue-guide/](https://jag999g.github.io/ai-dialogue-guide/)
+
 Репозиторий настроен под GitHub Pages: ветка `main`, корень репозитория.
-После пуша сайт доступен по адресу
-`https://<ваш-логин>.github.io/<имя-репозитория>/`.
 
 ## Участие
 
