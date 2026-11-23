@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Путеводитель по диалогу с искусственным интеллектом</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Lora (Serif) & Montserrat (Sans-serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FAF7F2',
+                        cardBg: '#FFFFFF',
+                        warmCard: '#F4EFE6',
+                        sage: {
+                            DEFAULT: '#2E5A44',
+                            50: '#F2F7F4',
+                            100: '#E1ECE5',
+                            700: '#234735',
+                            800: '#2E5A44',
+                            900: '#1B372A',
+                        },
+                        terracotta: {
+                            DEFAULT: '#B8654B',
+                            hover: '#9E533B',
+                            light: '#F8EFEA'
+                        },
+                        sand: '#E4DDD2',
+                        charcoal: '#2A2E2C',
+                        slateOlive: '#5A625E'
+                    },
+                    fontFamily: {
+                        serif: ['Lora', 'Georgia', 'serif'],
+                        sans: ['Montserrat', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF7F2;
+            color: #2A2E2C;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+        h1, h2, h3, h4, .font-serif-heading {
+            font-family: 'Lora', Georgia, serif;
+        }
+        /* Custom subtle scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF7F2;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D5CDC0;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B8AF9F;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-sage-100 selection:text-sage-900">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-[#FAF7F2]/95 backdrop-blur border-b border-sand shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between py-3 gap-3">
+            <!-- Site Title / Logo -->
+            <button onclick="switchTab('home')" class="text-left group flex items-center gap-3">
+                <span class="w-9 h-9 rounded-full bg-sage flex items-center justify-center text-white text-sm font-serif font-bold shadow-sm transition-transform group-hover:scale-105">
+                    ИИ
+                </span>
+                <div>
+                    <span class="font-serif font-bold text-lg sm:text-xl text-sage tracking-tight block leading-tight">
+                        Путеводитель по диалогу с искусственным интеллектом
+                    </span>
+                    <span class="text-xs text-slateOlive font-sans block">Практическое со-творчество и живой разговор</span>
+                </div>
+            </button>
+
+            <!-- Main Navigation Links -->
+            <nav class="flex flex-wrap items-center justify-center gap-1 sm:gap-2 text-sm font-medium">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3 py-2 rounded-lg transition-all duration-200 text-slateOlive hover:text-sage hover:bg-sage-50">
+                    <i class="fa-solid fa-compass mr-1.5 opacity-70"></i>Главная
+                </button>
+                <button onclick="switchTab('base')" id="nav-base" class="nav-btn px-3 py-2 rounded-lg transition-all duration-200 text-slateOlive hover:text-sage hover:bg-sage-50">
+                    <i class="fa-solid fa-book-open mr-1.5 opacity-70"></i>База (Б-1…Б-7)
+                </button>
+                <button onclick="switchTab('scenarios')" id="nav-scenarios" class="nav-btn px-3 py-2 rounded-lg transition-all duration-200 text-slateOlive hover:text-sage hover:bg-sage-50">
+                    <i class="fa-solid fa-[#B8654B] fa-masks-theater mr-1.5 opacity-70"></i>Сценарии (12)
+                </button>
+                <button onclick="switchTab('agents')" id="nav-agents" class="nav-btn px-3 py-2 rounded-lg transition-all duration-200 text-slateOlive hover:text-sage hover:bg-sage-50">
+                    <i class="fa-solid fa-diagram-project mr-1.5 opacity-70"></i>Агенты и локальный запуск
+                </button>
+                <button onclick="switchTab('dictionary')" id="nav-dictionary" class="nav-btn px-3 py-2 rounded-lg transition-all duration-200 text-slateOlive hover:text-sage hover:bg-sage-50">
+                    <i class="fa-solid fa-bookmark mr-1.5 opacity-70"></i>Словарь и опоры
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none bg-sage text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3">
+        <i class="fa-solid fa-check-circle text-lg text-emerald-300"></i>
+        <span class="text-sm font-medium">Скопировано в буфер обмена</span>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= SECTION 1: ГЛАВНАЯ ================= -->
+        <section id="tab-home" class="tab-content space-y-12">
+            
+            <!-- Hero Section -->
+            <div class="bg-cardBg rounded-3xl p-8 sm:p-12 border border-sand shadow-sm relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-sage-50 rounded-full blur-3xl pointer-events-none opacity-60"></div>
+                
+                <div class="max-w-3xl space-y-6 relative z-10">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sage-50 border border-sage/20 text-sage text-xs font-semibold tracking-wide uppercase">
+                        <i class="fa-solid fa-feather text-sage"></i> Живой практический путеводитель
+                    </span>
+
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-charcoal leading-tight">
+                        Путеводитель по диалогу с искусственным интеллектом
+                    </h1>
+
+                    <p class="text-lg sm:text-xl text-slateOlive font-sans leading-relaxed">
+                        Без лишних терминов и «секретных формул». Разбираемся на простых примерах, как выстраивать живой диалог и со-творчество с ИИ — для себя, учёбы и работы.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <button onclick="switchLesson('b1')" class="px-6 py-3.5 rounded-xl bg-sage hover:bg-sage-700 text-white font-medium text-base shadow-sm transition-all flex items-center gap-2">
+                            <span>Начать с первого диалога (15 минут)</span>
+                            <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </button>
+                        <button onclick="scrollToPathMap()" class="px-6 py-3.5 rounded-xl bg-warmCard hover:bg-sand/70 text-charcoal font-medium text-base border border-sand transition-all flex items-center gap-2">
+                            <span>Выбрать свою задачу</span>
+                            <i class="fa-solid fa-compass text-slateOlive"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 2: Это собеседник не только для программистов -->
+            <div class="space-y-6">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">
+                        Это собеседник не только для программистов
+                    </h2>
+                    <p class="text-slateOlive">
+                        Три примера того, как цифровая опора помогает в самых разных практиках:
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Preview 1 -->
+                    <div class="bg-cardBg rounded-2xl p-6 border border-sand shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-helmet-safety"></i>
+                            </div>
+                            <h3 class="text-lg font-serif font-bold text-charcoal">Строитель перед выездом</h3>
+                            <p class="text-sm text-slateOlive leading-relaxed">
+                                Превращает сумбурное голосовое сообщение заказчика в спокойный список вопросов и технических рисков старого дома.
+                            </p>
+                        </div>
+                        <div class="pt-6">
+                            <button onclick="goToScenario(1, 'structure')" class="text-sage font-medium text-sm flex items-center gap-1.5 hover:underline">
+                                <span>Смотреть диалог строителя</span>
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Preview 2 -->
+                    <div class="bg-cardBg rounded-2xl p-6 border border-sand shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-music"></i>
+                            </div>
+                            <h3 class="text-lg font-serif font-bold text-charcoal">Преподаватель вокала</h3>
+                            <p class="text-sm text-slateOlive leading-relaxed">
+                                Ищет точные телесные образы для ученика-инженера, которому не подходят абстрактные советы про «опору» и «купол».
+                            </p>
+                        </div>
+                        <div class="pt-6">
+                            <button onclick="goToScenario(2, 'people')" class="text-sage font-medium text-sm flex items-center gap-1.5 hover:underline">
+                                <span>Смотреть диалог преподавателя</span>
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Preview 3 -->
+                    <div class="bg-cardBg rounded-2xl p-6 border border-sand shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="w-10 h-10 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-palette"></i>
+                            </div>
+                            <h3 class="text-lg font-serif font-bold text-charcoal">Художник перед выставкой</h3>
+                            <p class="text-sm text-slateOlive leading-relaxed">
+                                Приглашает ИИ в роль внимательного интервьюера, чтобы написать честный текст о своих работах без штампов.
+                            </p>
+                        </div>
+                        <div class="pt-6">
+                            <button onclick="goToScenario(3, 'images')" class="text-sage font-medium text-sm flex items-center gap-1.5 hover:underline">
+                                <span>Смотреть диалог художника</span>
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 3: Карта путей (4 открытые двери) -->
+            <div id="path-map" class="space-y-6 pt-4">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <span class="text-xs font-semibold uppercase text-terracotta tracking-wider">Карта навигации</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">
+                        Четыре открытые двери: выберите свой вход
+                    </h2>
+                    <p class="text-slateOlive">
+                        В зависимости от вашего текущего опыта и задач, выберите наиболее близкий маршрут:
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Door 1 -->
+                    <div class="bg-cardBg rounded-2xl p-6 sm:p-8 border border-sand shadow-sm space-y-4 relative overflow-hidden">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-sage-50 text-sage flex items-center justify-center font-serif font-bold text-sm">1</span>
+                            <h3 class="text-xl font-serif font-bold text-charcoal">Пока не складывается разговор</h3>
+                        </div>
+                        <p class="text-sm text-slateOlive leading-relaxed">
+                            Для тех, кто уже открывал DeepSeek, Claude или другие сервисы, получал сухие, общие ответы и закрывал вкладку с ощущением разочарования.
+                        </p>
+                        <div class="pt-2 border-t border-sand/60 space-y-2">
+                            <button onclick="switchLesson('b1')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>Урок Б-1. Первые 15 минут с пользой</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                            <button onclick="switchLesson('b2')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>Урок Б-2. Разговор в несколько шагов</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                            <button onclick="switchLesson('b3')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>Урок Б-3. Куда зайти и с чего начать</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Door 2 -->
+                    <div class="bg-cardBg rounded-2xl p-6 sm:p-8 border border-sand shadow-sm space-y-4 relative overflow-hidden">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-sage-50 text-sage flex items-center justify-center font-serif font-bold text-sm">2</span>
+                            <h3 class="text-xl font-serif font-bold text-charcoal">Для себя, учёбы и со-творчества</h3>
+                        </div>
+                        <p class="text-sm text-slateOlive leading-relaxed">
+                            Для тех, кто хочет навести порядок в мыслительном хаосе, разобраться в сложной книге или статье, проверить гипотезу в споре или одолеть «белый лист».
+                        </p>
+                        <div class="pt-2 border-t border-sand/60 space-y-2">
+                            <button onclick="switchLesson('b4')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>Урок Б-4. Четыре опоры понятного запроса</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                            <button onclick="goToScenario(4, 'texts')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>Сценарии: Смыслы и тексты</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                            <button onclick="goToScenario(8, 'images')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>Сценарии: Поиск метафор и образов</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Door 3 -->
+                    <div class="bg-cardBg rounded-2xl p-6 sm:p-8 border border-sand shadow-sm space-y-4 relative overflow-hidden">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-sage-50 text-sage flex items-center justify-center font-serif font-bold text-sm">3</span>
+                            <h3 class="text-xl font-serif font-bold text-charcoal">Для работы, преподавания и практики</h3>
+                        </div>
+                        <p class="text-sm text-slateOlive leading-relaxed">
+                            Для врачей, психологов, юристов, преподавателей, строителей и руководителей — всех, кто ежедневно работает с людьми, документами и задачами.
+                        </p>
+                        <div class="pt-2 border-t border-sand/60 space-y-2">
+                            <button onclick="switchLesson('b6')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>Урок Б-6. Гигиена, правила и приватность</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                            <button onclick="goToScenario(9, 'people')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>Сценарии: Работа с людьми (врач, вокал)</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                            <button onclick="goToScenario(11, 'structure')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>Сценарии: Структура и правила (юрист, РП)</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Door 4 -->
+                    <div class="bg-cardBg rounded-2xl p-6 sm:p-8 border border-sand shadow-sm space-y-4 relative overflow-hidden">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-sage-50 text-sage flex items-center justify-center font-serif font-bold text-sm">4</span>
+                            <h3 class="text-xl font-serif font-bold text-charcoal">Что дальше: агенты и локальная работа</h3>
+                        </div>
+                        <p class="text-sm text-slateOlive leading-relaxed">
+                            Для тех, кто уже уверенно общается в чате и хочет узнать, как помощник решает многошаговые задачи и заходит ли модель прямо на ваш ПК без интернета.
+                        </p>
+                        <div class="pt-2 border-t border-sand/60 space-y-2">
+                            <button onclick="switchTab('agents')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>А-1. ИИ-агенты: совместные действия</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                            <button onclick="switchTab('agents')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sage-50 text-sm font-medium text-sage flex items-center justify-between">
+                                <span>Л-1. Запуск модели на своём компьютере</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                            <p class="text-xs text-slateOlive italic pt-1">
+                                Если «контекст» пока звучит непривычно — загляните сначала в «Первый контакт» на 15 минут.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 4: Быстрые опоры -->
+            <div class="bg-warmCard rounded-2xl p-6 sm:p-8 border border-sand space-y-4">
+                <h3 class="text-xl font-serif font-bold text-charcoal flex items-center gap-2">
+                    <i class="fa-solid fa-anchor text-terracotta"></i>
+                    <span>Быстрые опоры внизу страницы</span>
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <button onclick="switchLesson('b3')" class="bg-cardBg p-4 rounded-xl border border-sand hover:border-sage text-left transition-colors">
+                        <span class="block text-xs font-semibold text-terracotta uppercase">Куда зайти</span>
+                        <span class="block font-serif font-bold text-charcoal mt-1">Выбор сервиса для старта</span>
+                        <span class="block text-xs text-slateOlive mt-1">DeepSeek, Claude, ChatGPT или Qwen</span>
+                    </button>
+                    <button onclick="switchLesson('b6')" class="bg-cardBg p-4 rounded-xl border border-sand hover:border-sage text-left transition-colors">
+                        <span class="block text-xs font-semibold text-terracotta uppercase">Приватность</span>
+                        <span class="block font-serif font-bold text-charcoal mt-1">Правило кафе</span>
+                        <span class="block text-xs text-slateOlive mt-1">Обезличивание данных и имена</span>
+                    </button>
+                    <button onclick="switchTab('dictionary')" class="bg-cardBg p-4 rounded-xl border border-sand hover:border-sage text-left transition-colors">
+                        <span class="block text-xs font-semibold text-terracotta uppercase">Справочник</span>
+                        <span class="block font-serif font-bold text-charcoal mt-1">Словарь без терминов</span>
+                        <span class="block text-xs text-slateOlive mt-1">Контекст, галлюцинация, итерации</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: МОДУЛЬ «БАЗА» (Б-1…Б-7) ================= -->
+        <section id="tab-base" class="tab-content hidden space-y-8">
+            
+            <!-- Lesson Selector Tabs -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-sand text-sm">
+                <button onclick="switchLesson('b1')" id="btn-b1" class="lesson-tab-btn px-4 py-2 rounded-xl whitespace-nowrap font-medium transition-colors bg-sage text-white">Б-1. Первый диалог</button>
+                <button onclick="switchLesson('b2')" id="btn-b2" class="lesson-tab-btn px-4 py-2 rounded-xl whitespace-nowrap font-medium transition-colors text-slateOlive hover:bg-sage-50">Б-2. Не поисковик</button>
+                <button onclick="switchLesson('b3')" id="btn-b3" class="lesson-tab-btn px-4 py-2 rounded-xl whitespace-nowrap font-medium transition-colors text-slateOlive hover:bg-sage-50">Б-3. С чего начать</button>
+                <button onclick="switchLesson('b4')" id="btn-b4" class="lesson-tab-btn px-4 py-2 rounded-xl whitespace-nowrap font-medium transition-colors text-slateOlive hover:bg-sage-50">Б-4. Четыре опоры</button>
+                <button onclick="switchLesson('b5')" id="btn-b5" class="lesson-tab-btn px-4 py-2 rounded-xl whitespace-nowrap font-medium transition-colors text-slateOlive hover:bg-sage-50">Б-5. Под капотом</button>
+                <button onclick="switchLesson('b6')" id="btn-b6" class="lesson-tab-btn px-4 py-2 rounded-xl whitespace-nowrap font-medium transition-colors text-slateOlive hover:bg-sage-50">Б-6. Гигиена и правила</button>
+                <button onclick="switchLesson('b7')" id="btn-b7" class="lesson-tab-btn px-4 py-2 rounded-xl whitespace-nowrap font-medium transition-colors text-slateOlive hover:bg-sage-50">Б-7. Что дальше</button>
+            </div>
+
+            <!-- LESSON CONTAINER -->
+            <div id="lesson-content-container" class="bg-cardBg rounded-3xl p-6 sm:p-10 border border-sand shadow-sm min-h-[500px]">
+
+                <!-- Б-1 -->
+                <article id="lesson-b1" class="lesson-article space-y-8">
+                    <header class="space-y-3">
+                        <div class="flex items-center gap-2 text-xs font-semibold uppercase text-terracotta tracking-wider">
+                            <span>Урок Б-1</span>
+                            <span>•</span>
+                            <span>Время чтения: 5 минут</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">Первые 15 минут: один живой диалог с пользой</h2>
+                        <p class="text-slateOlive text-lg">Почему писать в ИИ как в поисковую строку дает сухой результат, и как построить первый разговор.</p>
+                    </header>
+
+                    <div class="prose max-w-none text-charcoal space-y-4">
+                        <p>
+                            Самая частая причина разочарования при первой встрече с цифровым помощником — привычка писать в него так же, как в поисковую строку Яндекса или Google. Мы вводим короткую сухую фразу вроде <em>«план на выходные с детьми»</em> или <em>«составь план выступления»</em>, получаем стандартный текстовый ответ «ни о чём» и закрываем окно.
+                        </p>
+                        <p>
+                            Помощник раскрывается только тогда, когда вы даёте ему <strong>контекст вашей конкретной ситуации</strong> и приглашаете к последовательному разговору.
+                        </p>
+                    </div>
+
+                    <!-- Example Case -->
+                    <div class="bg-warmCard rounded-2xl p-6 border border-sand space-y-4">
+                        <h4 class="font-serif font-bold text-lg text-charcoal">Наглядный пример: План на выходные</h4>
+                        
+                        <div class="space-y-3">
+                            <div class="p-4 rounded-xl bg-red-50/60 border border-red-200/60 text-sm">
+                                <span class="font-bold text-red-900 block mb-1">Шаг 1. Прямой короткий запрос (Как в поисковике)</span>
+                                <p class="italic text-slate-700">«Составь план отдыха на выходные»</p>
+                                <p class="text-xs text-red-700 mt-2">Результат: Вы получите обобщённый список из 10 стандартных пунктов (посетить музей, сходить в парк, почитать книгу), который не учитывает вашу усталость и погоду.</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200/60 text-sm">
+                                <span class="font-bold text-emerald-900 block mb-1">Шаг 2. Добавляем контекст и ограничения</span>
+                                <p class="italic text-slate-700">«Я сильно устал за неделю. Хочу провести субботу дома без экранов и трат, но при этом восстановить силы. Предложи 3 спокойных варианта досуга на 2 часа»</p>
+                                <p class="text-xs text-emerald-700 mt-2">Результат: Помощник предложит точные, тихие домашние сценарии с учетом вашего состояния.</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-sage-50 border border-sage/30 text-sm">
+                                <span class="font-bold text-sage-900 block mb-1">Шаг 3. Уточняем детали в диалоге</span>
+                                <p class="italic text-slate-700">«Второй вариант подходит, но убери всё, что связано с готовкой. Предложи простой список из 3 шагов»</p>
+                                <p class="text-xs text-sage-800 mt-2">Результат: Идеально подстроенный под ваше настроение индивидуальный план.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Practice Section -->
+                    <div class="bg-sage-50 rounded-2xl p-6 border border-sage/20 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-serif font-bold text-lg text-sage-900">Попробуйте прямо сейчас (займёт 10 минут)</h4>
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-sage/10 text-sage">Практика</span>
+                        </div>
+                        <p class="text-sm text-slate-800">
+                            Скопируйте этот простой шаблон, подставьте свою бытовую или рабочую задачу и отправьте в любой чат:
+                        </p>
+
+                        <div class="bg-cardBg p-4 rounded-xl border border-sand font-mono text-sm relative group">
+                            <pre class="whitespace-pre-wrap text-charcoal font-sans">«Мне нужно [опишите задачу]. Важно, чтобы [укажите 1–2 условия: например, было коротко / без сложных терминов / в спокойном тоне]. Сначала предложи первый вариант, а я скажу, что поправить»</pre>
+                            <button onclick="copyText('Мне нужно [опишите задачу]. Важно, чтобы [укажите 1–2 условия: например, было коротко / без сложных терминов / в спокойном тоне]. Сначала предложи первый вариант, а я скажу, что поправить')" class="mt-3 px-3 py-1.5 rounded-lg bg-sage hover:bg-sage-700 text-white text-xs font-medium flex items-center gap-1.5 transition-colors">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>Скопировать запрос</span>
+                            </button>
+                        </div>
+
+                        <div class="text-sm text-slate-700 space-y-2">
+                            <p class="font-semibold"> Четыре фразы для продолжения диалога:</p>
+                            <ul class="list-disc list-inside space-y-1 pl-2 text-xs sm:text-sm">
+                                <li>«Убери из этого ответа всё лишнее и оставь только главное»</li>
+                                <li>«Перепиши это понятным языком, как будто объясняешь подростку»</li>
+                                <li>«Предложи другой вариант, если бы бюджет/время были вдвое меньше»</li>
+                                <li>«Сфокусируйся только на пункте №2 и распиши его подробнее»</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Success Criteria -->
+                    <div class="border-t border-sand pt-6 space-y-2">
+                        <h4 class="font-serif font-bold text-base text-charcoal"> Как понять, что всё получилось:</h4>
+                        <p class="text-sm text-slateOlive">
+                            Вы получили ответ, который учитывает ваши реальные условия, и почувствовали, что не тратите время на переписывание банальностей, а корректируете живой черновик.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Б-2 -->
+                <article id="lesson-b2" class="lesson-article hidden space-y-8">
+                    <header class="space-y-3">
+                        <div class="flex items-center gap-2 text-xs font-semibold uppercase text-terracotta tracking-wider">
+                            <span>Урок Б-2</span>
+                            <span>•</span>
+                            <span>Время чтения: 6 минут</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">Почему ИИ — не поисковик: как устроен разговор в несколько шагов</h2>
+                        <p class="text-slateOlive text-lg">Как языковая модель генерирует ответы и почему итерации — главный способ получить точный результат.</p>
+                    </header>
+
+                    <div class="prose max-w-none text-charcoal space-y-4">
+                        <p>
+                            Поисковая система ищет <strong>уже готовые страницы</strong> в интернете и показывает ссылки на них. Языковая модель не ищет готовый текст — она <strong>создаёт ответ заново</strong> слово за словом прямо в момент вашего обращения.
+                        </p>
+                        <p>
+                            Именно поэтому первый ответ модели почти всегда является «средним арифметическим» из того, что она знает. Чтобы добраться до глубокой сути, нужен диалог в несколько шагов (итераций).
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-warmCard p-5 rounded-xl border border-sand">
+                            <span class="w-7 h-7 rounded-full bg-sage text-white text-xs font-bold flex items-center justify-center mb-3">1</span>
+                            <h4 class="font-serif font-bold text-charcoal mb-1">Шаг 1: Заход</h4>
+                            <p class="text-xs text-slateOlive">Вы обозначаете общую тему, роль и задачи. Получаете базовый первый черновик.</p>
+                        </div>
+                        <div class="bg-warmCard p-5 rounded-xl border border-sand">
+                            <span class="w-7 h-7 rounded-full bg-sage text-white text-xs font-bold flex items-center justify-center mb-3">2</span>
+                            <h4 class="font-serif font-bold text-charcoal mb-1">Шаг 2: Разворот</h4>
+                            <p class="text-xs text-slateOlive">Указываете на ошибки или лишнее: «Это слишком сухо», «Добавь упор на практическую пользу».</p>
+                        </div>
+                        <div class="bg-warmCard p-5 rounded-xl border border-sand">
+                            <span class="w-7 h-7 rounded-full bg-sage text-white text-xs font-bold flex items-center justify-center mb-3">3</span>
+                            <h4 class="font-serif font-bold text-charcoal mb-1">Шаг 3: Доводка</h4>
+                            <p class="text-xs text-slateOlive">Форматируете результат в удобный вид: «Оформи в виде таблицы из 3 колонок» или «Сделай памятку».</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-red-50/50 p-6 rounded-2xl border border-red-200/50 space-y-3">
+                        <h4 class="font-serif font-bold text-base text-red-900"> Как «починить» разговор, если он зашёл в тупик:</h4>
+                        <ul class="text-sm text-slate-800 space-y-2 list-disc list-inside">
+                            <li><strong>Сказать «стоп» прямо в чате:</strong> «Стоп, мы ушли не туда. Забудь прошлый ответ и давай вернёмся к цели…»</li>
+                            <li><strong>Открыть новый чат (Правило чистого листа):</strong> Если контекст накопил слишком много путаницы, проще начать новую беседу и дать обновлённый точный запрос.</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-t border-sand pt-6 space-y-2">
+                        <h4 class="font-serif font-bold text-base text-charcoal"> Как понять, что всё получилось:</h4>
+                        <p class="text-sm text-slateOlive">
+                            Вы перестали ожидать идеального ответа с первой реплики и научились за 2–3 уточнительных шага доводить любой черновик до нужной формы.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Б-3 -->
+                <article id="lesson-b3" class="lesson-article hidden space-y-8">
+                    <header class="space-y-3">
+                        <div class="flex items-center gap-2 text-xs font-semibold uppercase text-terracotta tracking-wider">
+                            <span>Урок Б-3</span>
+                            <span>•</span>
+                            <span>Время чтения: 4 минуты</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">Куда зайти и с чего начать</h2>
+                        <p class="text-slateOlive text-lg">Обзор главных доступных платформ и ответ на вопрос: нужно ли сразу платное обслуживание.</p>
+                    </header>
+
+                    <div class="space-y-4 text-charcoal">
+                        <p>Для повседневного общения и работы в 2026 году доступны несколько проверенных собеседников. Все они имеют бесплатные версии, которых более чем достаточно для старта:</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-serif font-bold text-lg text-sage">DeepSeek</h4>
+                                <span class="text-xs px-2 py-0.5 rounded bg-sage-50 text-sage font-medium">Очень точный</span>
+                            </div>
+                            <p class="text-xs text-slateOlive leading-relaxed">
+                                Отлично справляется со структурированием, анализом текстов, логическими задачами и работой на русском языке. Бесплатен и доступен.
+                            </p>
+                        </div>
+
+                        <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-serif font-bold text-lg text-terracotta">Claude</h4>
+                                <span class="text-xs px-2 py-0.5 rounded bg-terracotta/10 text-terracotta font-medium">Глубокий стиль</span>
+                            </div>
+                            <p class="text-xs text-slateOlive leading-relaxed">
+                                Замечательно работает с длинными текстами, редактурой, метафорами и тонким человеческим тоном повествования.
+                            </p>
+                        </div>
+
+                        <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-serif font-bold text-lg text-slate-800">ChatGPT</h4>
+                                <span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-800 font-medium">Универсальный</span>
+                            </div>
+                            <p class="text-xs text-slateOlive leading-relaxed">
+                                Самый популярный универсальный помощник для быстрых ответов, поиска и бытовых вопросов.
+                            </p>
+                        </div>
+
+                        <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-serif font-bold text-lg text-emerald-800">Qwen</h4>
+                                <span class="text-xs px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-medium">Открытый и быстрой</span>
+                            </div>
+                            <p class="text-xs text-slateOlive leading-relaxed">
+                                Отличный бесплатный помощник с хорошей поддержкой русского языка и высокой скоростью ответа.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-warmCard p-6 rounded-2xl border border-sand space-y-3">
+                        <h4 class="font-serif font-bold text-base text-charcoal"> Нужно ли сразу платить за подписку?</h4>
+                        <p class="text-sm text-slateOlive leading-relaxed">
+                            <strong>Нет, категорически не нужно.</strong> Бесплатных возможностей современных моделей хватает для 95% задач: написания текстов, анализа документов, планирования и поиска идей. Переходить на платные тарифы стоит только тогда, когда вам регулярно не хватает лимитов или нужны специализированные функции.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-sand pt-6 space-y-2">
+                        <h4 class="font-serif font-bold text-base text-charcoal"> Как понять, что всё получилось:</h4>
+                        <p class="text-sm text-slateOlive">
+                            Вы зарегистрировались в одном из сервисов (например, DeepSeek или Claude) и сделали первый тестовый запрос без каких-либо финансовых затрат.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Б-4 -->
+                <article id="lesson-b4" class="lesson-article hidden space-y-8">
+                    <header class="space-y-3">
+                        <div class="flex items-center gap-2 text-xs font-semibold uppercase text-terracotta tracking-wider">
+                            <span>Урок Б-4</span>
+                            <span>•</span>
+                            <span>Время чтения: 7 минут</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">Четыре опоры понятного запроса</h2>
+                        <p class="text-slateOlive text-lg">Простой каркас, который превращает сбивчивую мысль в ясный инструктаж.</p>
+                    </header>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-cardBg p-5 rounded-xl border border-sand space-y-2">
+                            <span class="text-xs font-bold text-sage uppercase">Опора 1</span>
+                            <h4 class="font-serif font-bold text-lg text-charcoal">1. Контекст</h4>
+                            <p class="text-xs text-slateOlive">Кто вы, в какой ситуации находитесь и для кого готовится ответ.</p>
+                        </div>
+                        <div class="bg-cardBg p-5 rounded-xl border border-sand space-y-2">
+                            <span class="text-xs font-bold text-sage uppercase">Опора 2</span>
+                            <h4 class="font-serif font-bold text-lg text-charcoal">2. Задача</h4>
+                            <p class="text-xs text-slateOlive">Что именно нужно сделать: написать, сократить, сравнить или набросать идеи.</p>
+                        </div>
+                        <div class="bg-cardBg p-5 rounded-xl border border-sand space-y-2">
+                            <span class="text-xs font-bold text-sage uppercase">Опора 3</span>
+                            <h4 class="font-serif font-bold text-lg text-charcoal">3. Формат</h4>
+                            <p class="text-xs text-slateOlive">В каком виде принести результат: список из 3 пунктов, таблица, короткое письмо.</p>
+                        </div>
+                        <div class="bg-cardBg p-5 rounded-xl border border-sand space-y-2">
+                            <span class="text-xs font-bold text-sage uppercase">Опора 4</span>
+                            <h4 class="font-serif font-bold text-lg text-charcoal">4. Ограничения</h4>
+                            <p class="text-xs text-slateOlive">Чего делать НЕ нужно: «без заумных слов», «не дольше 2 абзацев», «без терминов».</p>
+                        </div>
+                    </div>
+
+                    <!-- Comparison -->
+                    <div class="bg-warmCard rounded-2xl p-6 border border-sand space-y-4">
+                        <h4 class="font-serif font-bold text-base text-charcoal">Сравнение: Запрос про разговор с соседом</h4>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="bg-red-50/60 p-4 rounded-xl border border-red-200/60 space-y-2">
+                                <span class="font-bold text-red-900 block text-xs uppercase"> Без опор</span>
+                                <p class="italic text-slate-700">«Напиши сообщение соседу сверху, чтобы он не шумел вечером»</p>
+                                <p class="text-xs text-slate-600">Результат: Слишком официальное или агрессивное письмо, разрушающее отношения.</p>
+                            </div>
+
+                            <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200/60 space-y-2">
+                                <span class="font-bold text-emerald-900 block text-xs uppercase"> С четырьмя опорами</span>
+                                <p class="italic text-slate-700">«Я живу в доме с хорошей слышимостью (Контекст). Помоги написать вежливое сообщение соседу сверху (Задача). Текст до 3 предложений в WhatsApp (Формат). Тон доброжелательный, соседи хорошие, но громкая музыка после 23:00 мешает уложить ребёнка (Ограничения)»</p>
+                                <p class="text-xs text-slate-600">Результат: Идеально точное, мягкое и соседолюбивое сообщение.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-sand pt-6 space-y-2">
+                        <h4 class="font-serif font-bold text-base text-charcoal"> Как понять, что всё получилось:</h4>
+                        <p class="text-sm text-slateOlive">
+                            Ваш запрос содержит контекст, задачу, формат и ограничения, а ответ помощника попадает в цель с первого-второго шага.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Б-5 -->
+                <article id="lesson-b5" class="lesson-article hidden space-y-8">
+                    <header class="space-y-3">
+                        <div class="flex items-center gap-2 text-xs font-semibold uppercase text-terracotta tracking-wider">
+                            <span>Урок Б-5</span>
+                            <span>•</span>
+                            <span>Время чтения: 5 минут</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">Что происходит «под капотом» (ровно столько, сколько нужно для дела)</h2>
+                        <p class="text-slateOlive text-lg">Три главных свойства языковых моделей, которые берегут ваше время и предотвращают ошибки.</p>
+                    </header>
+
+                    <div class="space-y-4 text-charcoal">
+                        <div class="p-4 rounded-2xl bg-cardBg border border-sand space-y-2">
+                            <h4 class="font-serif font-bold text-sage">1. Ответ генерируется последовательно</h4>
+                            <p class="text-sm text-slateOlive leading-relaxed">
+                                ИИ не достаёт готовые статьи из встроенной энциклопедии. Он рассчитывает вероятности следующих слов на основе миллиардов прочитанных текстов. Поэтому фразы получаются гладкими, но требуют проверки фактов.
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-cardBg border border-sand space-y-2">
+                            <h4 class="font-serif font-bold text-sage">2. У каждого чата есть «объём внимания»</h4>
+                            <p class="text-sm text-slateOlive leading-relaxed">
+                                Модель помнит только то, что написано в текущей переписке. Если диалог длится слишком долго (более 20–30 сообщений), помощник начинает забывать первые инструкции. В этот момент лучше открыть новый чат.
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-cardBg border border-sand space-y-2">
+                            <h4 class="font-serif font-bold text-sage">3. ИИ стремится быть полезным во что бы то ни стало</h4>
+                            <p class="text-sm text-slateOlive leading-relaxed">
+                                Помощник очень не любит отвечать «я не знаю». Если спросить его о редком факте, он может убедительно выдумать деталь (это называется галлюцинацией).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-sage-50 p-5 rounded-2xl border border-sage/30 space-y-3">
+                        <h4 class="font-serif font-bold text-base text-sage-900"> Защитная фраза от выдумок:</h4>
+                        <div class="bg-cardBg p-3 rounded-xl border border-sand font-mono text-xs flex items-center justify-between">
+                            <span>«Если ты не уверен в каком-то факте или дате — не угадывай, а прямо напиши об этом»</span>
+                            <button onclick="copyText('Если ты не уверен в каком-то факте или дате — не угадывай, а прямо напиши об этом')" class="text-sage font-sans text-xs underline">Копировать</button>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-sand pt-6 space-y-2">
+                        <h4 class="font-serif font-bold text-base text-charcoal"> Как понять, что всё получилось:</h4>
+                        <p class="text-sm text-slateOlive">
+                            Вы спокойно относитесь к возможным неточностям в датах или фамилиях и проверяете ключевые факты самостоятельно.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Б-6 -->
+                <article id="lesson-b6" class="lesson-article hidden space-y-8">
+                    <header class="space-y-3">
+                        <div class="flex items-center gap-2 text-xs font-semibold uppercase text-terracotta tracking-wider">
+                            <span>Урок Б-6</span>
+                            <span>•</span>
+                            <span>Время чтения: 6 минут</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">Цифровая гигиена, обезличивание данных и проверка ответов</h2>
+                        <p class="text-slateOlive text-lg">Как безопасно консультироваться по рабочим случаям без риска утечки информации.</p>
+                    </header>
+
+                    <div class="bg-warmCard p-6 rounded-2xl border border-sand space-y-4">
+                        <h4 class="font-serif font-bold text-lg text-charcoal flex items-center gap-2">
+                            <i class="fa-solid fa-mug-hot text-terracotta"></i>
+                            <span>Правило кафе</span>
+                        </h4>
+                        <p class="text-sm text-slateOlive leading-relaxed">
+                            Представьте, что вы сидите в открытом городском кафе и обсуждаете рабочую задачу с коллегой. Все слова, которые вы не стали бы произносить громко вслух при посторонних (паспортные данные, пароли, фамилии клиентов, приватные медицинские диагнозы), <strong>нельзя отправлять в публичные сервисы ИИ</strong>.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="font-serif font-bold text-base text-charcoal">Искусство обезличивания на примере практики психолога</h4>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="bg-red-50/60 p-4 rounded-xl border border-red-200/60 space-y-2">
+                                <span class="font-bold text-red-900 block text-xs uppercase"> Не стоит так:</span>
+                                <p class="italic text-slate-700">«Клиентка Ольга Ивановна 42 года из компании Газпром жалуется на начальника Петра…»</p>
+                            </div>
+
+                            <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200/60 space-y-2">
+                                <span class="font-bold text-emerald-900 block text-xs uppercase"> Лучше так:</span>
+                                <p class="italic text-slate-700">«Взрослый клиент в корпоративном секторе испытывает симптомы выгорания при конфликте с руководителем…»</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-sand pt-6 space-y-2">
+                        <h4 class="font-serif font-bold text-base text-charcoal"> Как понять, что всё получилось:</h4>
+                        <p class="text-sm text-slateOlive">
+                            Перед отправкой каждого запроса вы бегло проверяете текст: удалены ли из него личные имена, названия компаний и конфиденциальные цифры.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Б-7 -->
+                <article id="lesson-b7" class="lesson-article hidden space-y-8">
+                    <header class="space-y-3">
+                        <div class="flex items-center gap-2 text-xs font-semibold uppercase text-terracotta tracking-wider">
+                            <span>Урок Б-7</span>
+                            <span>•</span>
+                            <span>Заключительный этап</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">Куда двигаться дальше</h2>
+                        <p class="text-slateOlive text-lg">Поздравляем! Вы освоили фундамент спокойного и эффективного диалога.</p>
+                    </header>
+
+                    <div class="prose max-w-none text-charcoal space-y-4 leading-relaxed">
+                        <p>
+                            Теперь у вас есть главная опора — понимание того, что ИИ не волшебство и не замена человеческому уму, а отзывчивый цифровой собеседник, требующий ясного контекста и ведения разговора.
+                        </p>
+                        <p>
+                            Дальнейшее развитие лучше всего строить через практику в ваших ежедневных задачах:
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button onclick="switchTab('scenarios')" class="p-6 rounded-2xl bg-cardBg border border-sand hover:border-sage text-left space-y-2 transition-all group">
+                            <span class="text-xs font-semibold text-terracotta uppercase">Шаг 1</span>
+                            <h4 class="font-serif font-bold text-lg text-charcoal group-hover:text-sage transition-colors">Перейти к 12 сценариям</h4>
+                            <p class="text-xs text-slateOlive">Посмотреть живые диалоги для разных профессий: от врача и строителя до юриста и художника.</p>
+                        </button>
+
+                        <button onclick="switchTab('agents')" class="p-6 rounded-2xl bg-cardBg border border-sand hover:border-sage text-left space-y-2 transition-all group">
+                            <span class="text-xs font-semibold text-terracotta uppercase">Шаг 2</span>
+                            <h4 class="font-serif font-bold text-lg text-charcoal group-hover:text-sage transition-colors">Агенты и локальный запуск</h4>
+                            <p class="text-xs text-slateOlive">Узнать, как работают автономные помощники и запуск моделей прямо на вашем компьютере.</p>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Prev/Next Controls -->
+                <div class="mt-10 pt-6 border-t border-sand flex items-center justify-between text-sm">
+                    <button id="lesson-prev-btn" onclick="navigateLesson(-1)" class="px-4 py-2 rounded-xl border border-sand hover:bg-warmCard transition-colors flex items-center gap-2 text-slateOlive">
+                        <i class="fa-solid fa-arrow-left text-xs"></i> Предыдущий урок
+                    </button>
+                    <button id="lesson-next-btn" onclick="navigateLesson(1)" class="px-4 py-2 rounded-xl bg-sage hover:bg-sage-700 text-white transition-colors flex items-center gap-2 font-medium">
+                        Следующий урок <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= SECTION 3: СЦЕНАРИИ (12 ПРИМЕРОВ) ================= -->
+        <section id="tab-scenarios" class="tab-content hidden space-y-8">
+            
+            <div class="space-y-4 text-center max-w-2xl mx-auto">
+                <span class="text-xs font-semibold uppercase text-terracotta tracking-wider">Практическая галерея</span>
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">12 контрастных «примеров-зеркал»</h2>
+                <p class="text-slateOlive text-sm">
+                    Выберите категорию или профессию, созвучную вашим текущим задачам:
+                </p>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="flex flex-wrap items-center justify-center gap-2 text-sm">
+                <button onclick="filterScenarios('all')" id="filter-all" class="filter-btn px-4 py-2 rounded-xl font-medium transition-colors bg-sage text-white">Все (12)</button>
+                <button onclick="filterScenarios('texts')" id="filter-texts" class="filter-btn px-4 py-2 rounded-xl font-medium transition-colors text-slateOlive bg-cardBg border border-sand hover:bg-sage-50">Смыслы и тексты (3)</button>
+                <button onclick="filterScenarios('people')" id="filter-people" class="filter-btn px-4 py-2 rounded-xl font-medium transition-colors text-slateOlive bg-cardBg border border-sand hover:bg-sage-50">Работа с людьми (3)</button>
+                <button onclick="filterScenarios('structure')" id="filter-structure" class="filter-btn px-4 py-2 rounded-xl font-medium transition-colors text-slateOlive bg-cardBg border border-sand hover:bg-sage-50">Структура и правила (4)</button>
+                <button onclick="filterScenarios('images')" id="filter-images" class="filter-btn px-4 py-2 rounded-xl font-medium transition-colors text-slateOlive bg-cardBg border border-sand hover:bg-sage-50">Поиск образов (2)</button>
+            </div>
+
+            <!-- SCENARIOS CONTAINER -->
+            <div id="scenarios-grid" class="space-y-8">
+
+                <!-- Scenario 1 -->
+                <div data-category="structure" id="scenario-1" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-amber-50 text-amber-800 font-bold text-sm flex items-center justify-center">1</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">1. Строитель / прораб</h3>
+                                <span class="text-xs text-slateOlive">Превращаем хаос пожеланий в чёткий список на замер</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Структура и правила</span>
+                    </div>
+
+                    <div class="text-sm text-slateOlive space-y-1">
+                        <strong class="text-charcoal block font-serif">Ситуация:</strong>
+                        <p>Заказчик прислал 10 голосовых сообщений с противоречивыми хотелками по ремонту старого дома. Нужно выписать ключевые вопросы перед выездом на замер.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Step 1 -->
+                        <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                            <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт (Первый запрос)</span>
+                            <p class="text-xs text-slate-700 italic">«Ниже расшифровка голосовых сообщений заказчика ремонта. Разбери этот хаос на 3 списка: 1) Окончательные пожелания, 2) Противоречия, о которых нужно спросить, 3) Технические риски старого дома, которые нужно проверить рулеткой и уровнем на замере»</p>
+                            <button onclick="copyText('Ниже расшифровка голосовых сообщений заказчика ремонта. Разбери этот хаос на 3 списка: 1) Окончательные пожелания, 2) Противоречия, о которых нужно спросить, 3) Технические риски старого дома, которые нужно проверить рулеткой и уровнем на замере')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                            <span class="text-xs font-bold text-sage uppercase">Шаг 2. Разворот</span>
+                            <p class="text-xs text-slate-700 italic">«Скомпонуй список №3 в виде короткого чек-листа для печати на планшет прораба»</p>
+                            <button onclick="copyText('Скомпонуй список №3 в виде короткого чек-листа для печати на планшет прораба')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Вместо выслушивания сумбура на объекте прораб приезжает со спокойным техническим чек-листом.
+                    </div>
+                </div>
+
+                <!-- Scenario 2 -->
+                <div data-category="people" id="scenario-2" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-800 font-bold text-sm flex items-center justify-center">2</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">2. Преподаватель вокала</h3>
+                                <span class="text-xs text-slateOlive">Ищем точные телесные метафоры для ученика-инженера</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Работа с людьми</span>
+                    </div>
+
+                    <div class="text-sm text-slateOlive space-y-1">
+                        <strong class="text-charcoal block font-serif">Ситуация:</strong>
+                        <p>Ученик по профессии программист-инженер зажимает челюсть и гортань. Стандартные вокальные метафоры («пой на куполе», «опрись на дыхание») вызывают у него только недоумение.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                            <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт</span>
+                            <p class="text-xs text-slate-700 italic">«Я преподаю вокал. Мой ученик — инженер-механик, который воспринимает только точные физические описания и аналогии из механики. Предложи 4 альтернативных способа объяснить ему расслабление нижней челюсти и гортани через понятные физические образы (рычаги, клапаны, свободный ход)»</p>
+                            <button onclick="copyText('Я преподаю вокал. Мой ученик — инженер-механик, который воспринимает только точные физические описания и аналогии из механики. Предложи 4 альтернативных способа объяснить ему расслабление нижней челюсти и гортани через понятные физические образы (рычаги, клапаны, свободный ход)')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                        </div>
+                        <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                            <span class="text-xs font-bold text-sage uppercase">Шаг 2. Разворот</span>
+                            <p class="text-xs text-slate-700 italic">«Оставь 2 самых простых образа и перепиши в виде коротких упражнений на 30 секунд перед пением»</p>
+                            <button onclick="copyText('Оставь 2 самых простых образа и перепиши в виде коротких упражнений на 30 секунд перед пением')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Преподаватель находит язык, понятный конкретному человеку, без потери профессиональной точности.
+                    </div>
+                </div>
+
+                <!-- Scenario 3 -->
+                <div data-category="images" id="scenario-3" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-rose-50 text-rose-800 font-bold text-sm flex items-center justify-center">3</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">3. Художник</h3>
+                                <span class="text-xs text-slateOlive">Пишем текст к выставке без искусствоведческих штампов</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Поиск образов</span>
+                    </div>
+
+                    <div class="text-sm text-slateOlive space-y-1">
+                        <strong class="text-charcoal block font-serif">Ситуация:</strong>
+                        <p>Художнику сложно писать пояснительный текст к серии картин — получаются либо пафосные штампы, либо слишком сухие описания.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                            <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт (ИИ как интервьюер)</span>
+                            <p class="text-xs text-slate-700 italic">«Побудь внимательным интервьюером галереи. Задай мне по очереди 3 точных вопроса о моей новой серии живописи. Задавай по одному вопросу за раз, жди моего ответа, а в конце собери честный текст без пафоса»</p>
+                            <button onclick="copyText('Побудь внимательным интервьюером галереи. Задай мне по очереди 3 точных вопроса о моей новой серии живописи. Задавай по одному вопросу за раз, жди моего ответа, а в конце собери честный текст без пафоса')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Живой, искренний текст, рождённый в ответе на вопросы, а не из мучительного разглядывания белого листа.
+                    </div>
+                </div>
+
+                <!-- Scenario 4 -->
+                <div data-category="texts" id="scenario-4" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-blue-50 text-blue-800 font-bold text-sm flex items-center justify-center">4</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">4. Антрополог / исследователь</h3>
+                                <span class="text-xs text-slateOlive">Проверяем аргументацию статьи на прочность</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Смыслы и тексты</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                            <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт</span>
+                            <p class="text-xs text-slate-700 italic">«Прочитай черновик моей гипотезы о городских ритуалах. Побудь въедливым оппонентом и найди 3 слабых места в моей логике, где я делаю поспешный вывод без доказательств»</p>
+                            <button onclick="copyText('Прочитай черновик моей гипотезы о городских ритуалах. Побудь въедливым оппонентом и найди 3 слабых места в моей логике, где я делаю поспешный вывод без доказательств')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Беспристрастная проверка текста до отправки в научный журнал.
+                    </div>
+                </div>
+
+                <!-- Scenario 5 -->
+                <div data-category="structure" id="scenario-5" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-amber-50 text-amber-800 font-bold text-sm flex items-center justify-center">5</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">5. Архитектор</h3>
+                                <span class="text-xs text-slateOlive">Разрешаем технические противоречия заказчика</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Структура и правила</span>
+                    </div>
+                    <div class="text-sm text-slateOlive space-y-1">
+                        <strong class="text-charcoal block font-serif">Ситуация:</strong>
+                        <p>Клиент хочет панорамные окна во всю стену, но одновременно требует абсолютной приватности и энергоэффективности класса А+.</p>
+                    </div>
+                    <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт</span>
+                        <p class="text-xs text-slate-700 italic">«Помоги сформулировать 3 архитектурных компромиссных решения, объединяющих свет, приватность и энергосбережение, простым языком для презентации заказчику»</p>
+                        <button onclick="copyText('Помоги сформулировать 3 архитектурных компромиссных решения, объединяющих свет, приватность и энергосбережение, простым языком для презентации заказчику')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                    </div>
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Архитектор приходит на встречу с наглядными вариантами вместо споров.
+                    </div>
+                </div>
+
+                <!-- Scenario 6 -->
+                <div data-category="texts" id="scenario-6" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-blue-50 text-blue-800 font-bold text-sm flex items-center justify-center">6</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">6. Переводчик художественной прозы</h3>
+                                <span class="text-xs text-slateOlive">Ищем точный смысловой регистр для романа 1930-х годов</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Смыслы и тексты</span>
+                    </div>
+                    <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт</span>
+                        <p class="text-xs text-slate-700 italic">«Предложи 5 синонимичных вариантов перевода устаревшей идиомы [фраза], сохраняя дух русской прозы 1930-х годов без современных канцеляризмов»</p>
+                        <button onclick="copyText('Предложи 5 синонимичных вариантов перевода устаревшей идиомы [фраза], сохраняя дух русской прозы 1930-х годов без современных канцеляризмов')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                    </div>
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Быстрый веер контекстных синонимов для выбора лучшего оттенка.
+                    </div>
+                </div>
+
+                <!-- Scenario 7 -->
+                <div data-category="people" id="scenario-7" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-800 font-bold text-sm flex items-center justify-center">7</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">7. Специалист по ИБ</h3>
+                                <span class="text-xs text-slateOlive">Переводим риски на язык бизнеса</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Работа с людьми</span>
+                    </div>
+                    <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт</span>
+                        <p class="text-xs text-slate-700 italic">«Перепиши этот технический отчет об уязвимости сети на язык финансовых рисков для директора компании, не использующего IT-терминологию»</p>
+                        <button onclick="copyText('Перепиши этот технический отчет об уязвимости сети на язык финансовых рисков для директора компании, не использующего IT-терминологию')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                    </div>
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Руководство сразу понимает бюджет и приоритет защиты.
+                    </div>
+                </div>
+
+                <!-- Scenario 8 -->
+                <div data-category="images" id="scenario-8" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-rose-50 text-rose-800 font-bold text-sm flex items-center justify-center">8</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">8. Композитор</h3>
+                                <span class="text-xs text-slateOlive">Подбираем тактильные звуковые ориентиры</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Поиск образов</span>
+                    </div>
+                    <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт</span>
+                        <p class="text-xs text-slate-700 italic">«Опиши штрих виолончели в 3-й части пьесы через тактильные и температурные ощущения (дерево, мороз, шершавость), чтобы внести заметку в партитуру»</p>
+                        <button onclick="copyText('Опиши штрих виолончели в 3-й части пьесы через тактильные и температурные ощущения (дерево, мороз, шершавость), чтобы внести заметку в партитуру')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                    </div>
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Выразительные авторские ремарки в нотах.
+                    </div>
+                </div>
+
+                <!-- Scenario 9 -->
+                <div data-category="people" id="scenario-9" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-800 font-bold text-sm flex items-center justify-center">9</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">9. Врач-терапевт</h3>
+                                <span class="text-xs text-slateOlive">Памятка пациенту после приёма по гипертензии</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Работа с людьми</span>
+                    </div>
+                    <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт</span>
+                        <p class="text-xs text-slate-700 italic">«Составь памятку пациенту с впервые выявленной гипертензией: как мерить давление, зачем вести дневник и когда звонить врачу. Без дозировок лекарств. Тон спокойный, простым языком»</p>
+                        <button onclick="copyText('Составь памятку пациенту с впервые выявленной гипертензией: как мерить давление, зачем вести дневник и когда звонить врачу. Без дозировок лекарств. Тон спокойный, простым языком')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                    </div>
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Готовый листок на холодильник за 1 минуту.
+                    </div>
+                </div>
+
+                <!-- Scenario 10 -->
+                <div data-category="texts" id="scenario-10" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-blue-50 text-blue-800 font-bold text-sm flex items-center justify-center">10</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">10. Психолог / психоаналитик</h3>
+                                <span class="text-xs text-slateOlive">Сопоставляем теории для семинара</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Смыслы и тексты</span>
+                    </div>
+                    <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт</span>
+                        <p class="text-xs text-slate-700 italic">«Набросай карту сопоставления: как тема "непрожитой утраты" описывается в психодинамическом подходе и в телесной терапии. Без поп-психологии»</p>
+                        <button onclick="copyText('Набросай карту сопоставления: как тема непрожитой утраты описывается в психодинамическом подходе и в телесной терапии. Без поп-психологии')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                    </div>
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Структурный каркас доклада без раскрытия приватных данных.
+                    </div>
+                </div>
+
+                <!-- Scenario 11 -->
+                <div data-category="structure" id="scenario-11" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-amber-50 text-amber-800 font-bold text-sm flex items-center justify-center">11</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">11. Юрист</h3>
+                                <span class="text-xs text-slateOlive">Вытаскиваем перекосы из договора</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Структура и правила</span>
+                    </div>
+                    <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт</span>
+                        <p class="text-xs text-slate-700 italic">«Проанализируй этот обезличенный проект договора Исполнителя и выдели пункты, где есть скрытые штрафы или односторонние перекосы в пользу Заказчика»</p>
+                        <button onclick="copyText('Проанализируй этот обезличенный проект договора Исполнителя и выдели пункты, где есть скрытые штрафы или односторонние перекосы в пользу Заказчика')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                    </div>
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Скоростной экспресс-аудит рисков перед глубокой правкой.
+                    </div>
+                </div>
+
+                <!-- Scenario 12 -->
+                <div data-category="structure" id="scenario-12" class="scenario-card bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand/80 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-amber-50 text-amber-800 font-bold text-sm flex items-center justify-center">12</span>
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">12. Руководитель проекта</h3>
+                                <span class="text-xs text-slateOlive">Превращаем хаос планёрки в договорённости</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-sand/50 text-slateOlive">Структура и правила</span>
+                    </div>
+                    <div class="bg-warmCard p-4 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-sage uppercase">Шаг 1. Промпт</span>
+                        <p class="text-xs text-slate-700 italic">«Ниже сумбурные заметки созвона. Собери из них: 1) О чём договорились, 2) Задачи формата "Кто - Что - До когда", 3) Открытые вопросы»</p>
+                        <button onclick="copyText('Ниже сумбурные заметки созвона. Собери из них: 1) О чём договорились, 2) Задачи формата Кто - Что - До когда, 3) Открытые вопросы')" class="px-3 py-1 rounded bg-sage text-white text-xs">Скопировать запрос</button>
+                    </div>
+                    <div class="bg-sage-50/70 p-4 rounded-xl text-xs text-sage-900 border border-sage/20">
+                        <strong>Что получается в итоге:</strong> Ясный фоллоу-ап в общий чат через 3 минуты после встречи.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= SECTION 4: АГЕНТЫ И ЛОКАЛЬНАЯ РАБОТА ================= -->
+        <section id="tab-agents" class="tab-content hidden space-y-10">
+            
+            <!-- Top Gentle Banner -->
+            <div class="bg-warmCard rounded-2xl p-4 sm:p-6 border border-sand flex items-center justify-between gap-4">
+                <div class="text-xs sm:text-sm text-slateOlive">
+                    <i class="fa-solid fa-circle-info text-sage mr-2"></i>
+                    <span>Если понятия «контекст» и «запрос в несколько шагов» пока звучат непривычно, загляните сначала в уроки Базы.</span>
+                </div>
+                <button onclick="switchLesson('b1')" class="px-3 py-1.5 rounded-lg bg-sage text-white text-xs font-medium whitespace-nowrap">
+                    Урок Б-1
+                </button>
+            </div>
+
+            <!-- Material A-1: ИИ-Агенты -->
+            <div class="bg-cardBg rounded-3xl p-6 sm:p-10 border border-sand shadow-sm space-y-6">
+                <div class="space-y-2">
+                    <span class="text-xs font-semibold uppercase text-terracotta tracking-wider">Раздел А-1</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">ИИ-агенты: от переписки к совместному действию</h2>
+                </div>
+
+                <div class="prose max-w-none text-charcoal space-y-4 text-sm sm:text-base leading-relaxed">
+                    <p>
+                        В привычном чате общение строится по принципу «вопрос — ответ». Вы пишете реплику, собеседник отвечает, дальше следующий шаг снова делаете вы.
+                    </p>
+                    <p>
+                        <strong>ИИ-агент</strong> — это следующий шаг развития таких помощников. Если обычный чат похож на консультанта в мессенджере, то агент больше напоминает младшего коллегу, которому можно поручить многошаговую задачу целиком.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-warmCard p-5 rounded-2xl border border-sand space-y-2">
+                        <div class="w-8 h-8 rounded-lg bg-sage text-white flex items-center justify-center font-bold text-sm">1</div>
+                        <h4 class="font-serif font-bold text-charcoal">Сам планирует шаги</h4>
+                        <p class="text-xs text-slateOlive leading-relaxed">Вы задаёте конечную цель, а агент разбивает её на этапы: что прочитать, что сопоставить и в каком виде собрать итог.</p>
+                    </div>
+                    <div class="bg-warmCard p-5 rounded-2xl border border-sand space-y-2">
+                        <div class="w-8 h-8 rounded-lg bg-sage text-white flex items-center justify-center font-bold text-sm">2</div>
+                        <h4 class="font-serif font-bold text-charcoal">Работает с окружением</h4>
+                        <p class="text-xs text-slateOlive leading-relaxed">Агент может сам открывать документы в папке, искать информацию в источниках, писать фрагменты кода и исправлять себя.</p>
+                    </div>
+                    <div class="bg-warmCard p-5 rounded-2xl border border-sand space-y-2">
+                        <div class="w-8 h-8 rounded-lg bg-sage text-white flex items-center justify-center font-bold text-sm">3</div>
+                        <h4 class="font-serif font-bold text-charcoal">Держит длинную нить</h4>
+                        <p class="text-xs text-slateOlive leading-relaxed">Вместо пересылки кусков текста вручную агент последовательно собирает весь материал самостоятельно.</p>
+                    </div>
+                </div>
+
+                <!-- Case example -->
+                <div class="bg-sage-50/60 p-6 rounded-2xl border border-sage/20 space-y-3">
+                    <h4 class="font-serif font-bold text-base text-sage-900">Пример из практики исследователя / преподавателя:</h4>
+                    <p class="text-sm text-slate-800 leading-relaxed">
+                        У вас накопилась папка из 20 заметками и черновиками за полгода. В обычном чате пришлось бы загружать каждый файл по очереди. Агенту можно поставить общую задачу: <em>«Просмотри все файлы в папке, сгруппируй мысли по 4 темам, отметь противоречия и собери единый черновик обзора»</em>.
+                    </p>
+                </div>
+
+                <div class="border-t border-sand pt-4 text-xs sm:text-sm text-slateOlive">
+                    <strong>Граница человека:</strong> Любые необратимые действия (отправка писем, удаление файлов, публикация) агент не делает в одиночку, а выносит на утверждение человеку.
+                </div>
+            </div>
+
+            <!-- Material L-1: Локальная работа -->
+            <div class="bg-cardBg rounded-3xl p-6 sm:p-10 border border-sand shadow-sm space-y-6">
+                <div class="space-y-2">
+                    <span class="text-xs font-semibold uppercase text-terracotta tracking-wider">Раздел Л-1</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">Локальная работа на своём компьютере: зачем и когда НЕ нужна</h2>
+                </div>
+
+                <p class="text-sm sm:text-base text-charcoal leading-relaxed">
+                    <strong>Локальная работа</strong> означает, что языковая модель скачивается и запускается прямо на вашем собственном ПК или ноутбуке — как обычная программа. После установки ей не нужен интернет: весь диалог происходит внутри устройства.
+                </p>
+
+                <!-- Three reasons -->
+                <div class="space-y-3">
+                    <h4 class="font-serif font-bold text-base text-charcoal">Три причины, когда это имеет смысл:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="p-4 rounded-xl bg-warmCard border border-sand space-y-1">
+                            <span class="font-bold text-sage">1. Полная приватность</span>
+                            <p class="text-xs text-slateOlive">Для медицинских выписок, юридических досье и закрытых рукописей. Ни одно слово не покидает ваш ПК.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-warmCard border border-sand space-y-1">
+                            <span class="font-bold text-sage">2. Автономность</span>
+                            <p class="text-xs text-slateOlive">Модель работает в поезде или в загородном доме без связи и не зависит от сбоев на серверах.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-warmCard border border-sand space-y-1">
+                            <span class="font-bold text-sage">3. Предсказуемость</span>
+                            <p class="text-xs text-slateOlive">Модель не меняет характер ответов наутро после очередного обновления на сайте разработчиков.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HONEST FILTER CALLOUT CARD -->
+                <div class="bg-red-50/70 p-6 rounded-2xl border border-red-200 space-y-4">
+                    <div class="flex items-center gap-2 text-red-900 font-serif font-bold text-lg">
+                        <i class="fa-solid fa-filter"></i>
+                        <span>Честный фильтр: когда локальная работа точно НЕ нужна</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-800">
+                        <div class="bg-cardBg p-3.5 rounded-xl border border-red-100">
+                            <strong> Вы только начинаете:</strong> Настройка среды требует технических усилий и отвлекает от навыка ведения диалога.
+                        </div>
+                        <div class="bg-cardBg p-3.5 rounded-xl border border-red-100">
+                            <strong> Обычный домашний ноутбук:</strong> Без мощной видеокарты модель будет думать по 5 минут или давать очень слабые ответы.
+                        </div>
+                        <div class="bg-cardBg p-3.5 rounded-xl border border-red-100">
+                            <strong> Нужен свежий поиск в сети:</strong> Локальная модель знает только то, что загружено при обучении, и не видит свежих новостей.
+                        </div>
+                        <div class="bg-cardBg p-3.5 rounded-xl border border-red-100">
+                            <strong> Достаточно обезличить текст:</strong> Удаление имён позволяет отлично решать задачи в обычном бесплатном онлайн-чате.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-xs sm:text-sm text-slateOlive bg-warmCard p-4 rounded-xl border border-sand">
+                    <strong>Как попробовать при желании:</strong> Существуют удобные программы с понятным окном (например, <em>LM Studio</em> или <em>Ollama</em>), где можно выбрать открытую модель (Qwen, Gemma), скачать её в один клик и общаться без интернета.
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= SECTION 5: СЛОВАРЬ И ОПОРЫ ================= -->
+        <section id="tab-dictionary" class="tab-content hidden space-y-10">
+            
+            <div class="space-y-3 text-center max-w-2xl mx-auto">
+                <span class="text-xs font-semibold uppercase text-terracotta tracking-wider">Понятный справочник</span>
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">Словарь без заумных слов</h2>
+                <p class="text-slateOlive text-sm">Простое объяснение главных терминов простым человеческим языком:</p>
+            </div>
+
+            <!-- Accordion Container -->
+            <div class="bg-cardBg rounded-3xl p-6 sm:p-8 border border-sand shadow-sm space-y-3 max-w-3xl mx-auto">
+                
+                <!-- Term 1 -->
+                <div class="border border-sand rounded-xl overflow-hidden">
+                    <button onclick="toggleAccordion('acc-1')" class="w-full p-4 text-left font-serif font-bold text-charcoal bg-warmCard/50 hover:bg-warmCard transition-colors flex items-center justify-between">
+                        <span>Контекст</span>
+                        <i id="acc-1-icon" class="fa-solid fa-chevron-down text-xs text-slateOlive transition-transform"></i>
+                    </button>
+                    <div id="acc-1" class="accordion-body hidden p-4 text-sm text-slateOlive leading-relaxed border-t border-sand bg-cardBg">
+                        Обстановка, ваша роль, цель и ограничения задачи. Все сведения, которые вы даёте помощнику, чтобы он понял вашу реальную ситуацию, а не отвечал обобщённо.
+                    </div>
+                </div>
+
+                <!-- Term 2 -->
+                <div class="border border-sand rounded-xl overflow-hidden">
+                    <button onclick="toggleAccordion('acc-2')" class="w-full p-4 text-left font-serif font-bold text-charcoal bg-warmCard/50 hover:bg-warmCard transition-colors flex items-center justify-between">
+                        <span>Итерация (Диалог в несколько шагов)</span>
+                        <i id="acc-2-icon" class="fa-solid fa-chevron-down text-xs text-slateOlive transition-transform"></i>
+                    </button>
+                    <div id="acc-2" class="accordion-body hidden p-4 text-sm text-slateOlive leading-relaxed border-t border-sand bg-cardBg">
+                        Последовательное уточнение ответа. Каждый следующий шаг уточнений (сократить, изменять тон, переписать в таблицу) приближает черновик к идеалу.
+                    </div>
+                </div>
+
+                <!-- Term 3 -->
+                <div class="border border-sand rounded-xl overflow-hidden">
+                    <button onclick="toggleAccordion('acc-3')" class="w-full p-4 text-left font-serif font-bold text-charcoal bg-warmCard/50 hover:bg-warmCard transition-colors flex items-center justify-between">
+                        <span>Объём внимания (Контекстное окно)</span>
+                        <i id="acc-3-icon" class="fa-solid fa-chevron-down text-xs text-slateOlive transition-transform"></i>
+                    </button>
+                    <div id="acc-3" class="accordion-body hidden p-4 text-sm text-slateOlive leading-relaxed border-t border-sand bg-cardBg">
+                        Количество текста и сообщений, которое чат помнит одновременно в рамках одной беседы. Если переписка становится слишком длинной, модель начинает путаться.
+                    </div>
+                </div>
+
+                <!-- Term 4 -->
+                <div class="border border-sand rounded-xl overflow-hidden">
+                    <button onclick="toggleAccordion('acc-4')" class="w-full p-4 text-left font-serif font-bold text-charcoal bg-warmCard/50 hover:bg-warmCard transition-colors flex items-center justify-between">
+                        <span>Галлюцинация модели</span>
+                        <i id="acc-4-icon" class="fa-solid fa-chevron-down text-xs text-slateOlive transition-transform"></i>
+                    </button>
+                    <div id="acc-4" class="accordion-body hidden p-4 text-sm text-slateOlive leading-relaxed border-t border-sand bg-cardBg">
+                        Уверенная выдумка факта, даты или фамилии. Происходит потому, что ИИ стремится дать ответ во что бы то ни стало, рассчитывая вероятности слов.
+                    </div>
+                </div>
+
+                <!-- Term 5 -->
+                <div class="border border-sand rounded-xl overflow-hidden">
+                    <button onclick="toggleAccordion('acc-5')" class="w-full p-4 text-left font-serif font-bold text-charcoal bg-warmCard/50 hover:bg-warmCard transition-colors flex items-center justify-between">
+                        <span>Обезличивание («Правило кафе»)</span>
+                        <i id="acc-5-icon" class="fa-solid fa-chevron-down text-xs text-slateOlive transition-transform"></i>
+                    </button>
+                    <div id="acc-5" class="accordion-body hidden p-4 text-sm text-slateOlive leading-relaxed border-t border-sand bg-cardBg">
+                        Удаление из текста личных имен, названий компаний, телефонов и секретов перед отправкой в чат для защиты приватности.
+                    </div>
+                </div>
+
+                <!-- Term 6 -->
+                <div class="border border-sand rounded-xl overflow-hidden">
+                    <button onclick="toggleAccordion('acc-6')" class="w-full p-4 text-left font-serif font-bold text-charcoal bg-warmCard/50 hover:bg-warmCard transition-colors flex items-center justify-between">
+                        <span>ИИ-агент</span>
+                        <i id="acc-6-icon" class="fa-solid fa-chevron-down text-xs text-slateOlive transition-transform"></i>
+                    </button>
+                    <div id="acc-6" class="accordion-body hidden p-4 text-sm text-slateOlive leading-relaxed border-t border-sand bg-cardBg">
+                        Продвинутая программа-помощник, которая сама планирует цепочку действий для выполнения крупной задачи и может обращаться к папкам и файлам.
+                    </div>
+                </div>
+
+                <!-- Term 7 -->
+                <div class="border border-sand rounded-xl overflow-hidden">
+                    <button onclick="toggleAccordion('acc-7')" class="w-full p-4 text-left font-serif font-bold text-charcoal bg-warmCard/50 hover:bg-warmCard transition-colors flex items-center justify-between">
+                        <span>Локальная модель</span>
+                        <i id="acc-7-icon" class="fa-solid fa-chevron-down text-xs text-slateOlive transition-transform"></i>
+                    </button>
+                    <div id="acc-7" class="accordion-body hidden p-4 text-sm text-slateOlive leading-relaxed border-t border-sand bg-cardBg">
+                        Языковая модель, которая скачана и работает на вашем собственном компьютере автономно без подключения к сети интернет.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Quick Cheat Sheets -->
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <h3 class="text-xl font-serif font-bold text-charcoal">Три быстрые памятки для работы</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-warmCard p-5 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-terracotta uppercase">Памятка 1</span>
+                        <h4 class="font-serif font-bold text-charcoal">Правило кафе</h4>
+                        <p class="text-xs text-slateOlive leading-relaxed">Не пиши в чат то, что не стал бы громко говорить вслух за столиком в кофейне.</p>
+                    </div>
+
+                    <div class="bg-warmCard p-5 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-terracotta uppercase">Памятка 2</span>
+                        <h4 class="font-serif font-bold text-charcoal">4 опоры запроса</h4>
+                        <p class="text-xs text-slateOlive leading-relaxed">1. Контекст, 2. Задача, 3. Формат, 4. Ограничения (чего НЕ делать).</p>
+                    </div>
+
+                    <div class="bg-warmCard p-5 rounded-2xl border border-sand space-y-2">
+                        <span class="text-xs font-bold text-terracotta uppercase">Памятка 3</span>
+                        <h4 class="font-serif font-bold text-charcoal">Если зашёл в тупик</h4>
+                        <p class="text-xs text-slateOlive leading-relaxed">Напиши «Стоп, давай вернёмся к цели» или открой новый чат с чистого листа.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER (ONLY ONE CALM LINE) -->
+    <footer class="border-t border-sand bg-cardBg py-6 mt-12 text-center text-sm text-slateOlive font-serif">
+        Путеводитель по диалогу с искусственным интеллектом
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Tab switching logic
+        const currentLesson = 'b1';
+        const lessonsOrder = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'];
+        let activeLessonId = 'b1';
+
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Remove active classes from nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-sage-50', 'text-sage', 'font-semibold');
+                btn.classList.add('text-slateOlive');
+            });
+
+            // Show selected tab content
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if (targetTab) {
+                targetTab.classList.remove('hidden');
+            }
+
+            // Highlight nav button
+            const activeNavBtn = document.getElementById(`nav-${tabId}`);
+            if (activeNavBtn) {
+                activeNavBtn.classList.add('bg-sage-50', 'text-sage', 'font-semibold');
+                activeNavBtn.classList.remove('text-slateOlive');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Lesson navigation within "База" tab
+        function switchLesson(lessonId) {
+            switchTab('base');
+            activeLessonId = lessonId;
+
+            // Hide all lesson articles
+            document.querySelectorAll('.lesson-article').forEach(art => art.classList.add('hidden'));
+
+            // Show active lesson
+            const targetLesson = document.getElementById(`lesson-${lessonId}`);
+            if (targetLesson) {
+                targetLesson.classList.remove('hidden');
+            }
+
+            // Update tab button styles
+            document.querySelectorAll('.lesson-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-sage', 'text-white');
+                btn.classList.add('text-slateOlive', 'hover:bg-sage-50');
+            });
+
+            const activeBtn = document.getElementById(`btn-${lessonId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-sage', 'text-white');
+                activeBtn.classList.remove('text-slateOlive', 'hover:bg-sage-50');
+            }
+
+            // Update prev/next buttons
+            const idx = lessonsOrder.indexOf(lessonId);
+            const prevBtn = document.getElementById('lesson-prev-btn');
+            const nextBtn = document.getElementById('lesson-next-btn');
+
+            if (prevBtn) {
+                prevBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
+            }
+            if (nextBtn) {
+                nextBtn.style.visibility = idx === lessonsOrder.length - 1 ? 'hidden' : 'visible';
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigateLesson(direction) {
+            const idx = lessonsOrder.indexOf(activeLessonId);
+            const nextIdx = idx + direction;
+            if (nextIdx >= 0 && nextIdx < lessonsOrder.length) {
+                switchLesson(lessonsOrder[nextIdx]);
+            }
+        }
+
+        // Scenario Category Filtering
+        function filterScenarios(category) {
+            // Update filter button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-sage', 'text-white');
+                btn.classList.add('text-slateOlive', 'bg-cardBg', 'border', 'border-sand');
+            });
+
+            const activeFilterBtn = document.getElementById(`filter-${category}`);
+            if (activeFilterBtn) {
+                activeFilterBtn.classList.add('bg-sage', 'text-white');
+                activeFilterBtn.classList.remove('text-slateOlive', 'bg-cardBg', 'border', 'border-sand');
+            }
+
+            // Show/hide cards
+            document.querySelectorAll('.scenario-card').forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Deep-link helper to jump to scenario
+        function goToScenario(scenarioId, category) {
+            switchTab('scenarios');
+            filterScenarios(category || 'all');
+            
+            setTimeout(() => {
+                const targetCard = document.getElementById(`scenario-${scenarioId}`);
+                if (targetCard) {
+                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
+
+        // Smooth scroll to path map on Home page
+        function scrollToPathMap() {
+            const pathMap = document.getElementById('path-map');
+            if (pathMap) {
+                pathMap.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Accordion Toggle
+        function toggleAccordion(id) {
+            const body = document.getElementById(id);
+            const icon = document.getElementById(`${id}-icon`);
+            if (body && icon) {
+                const isHidden = body.classList.contains('hidden');
+                body.classList.toggle('hidden');
+                if (isHidden) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            }
+        }
+
+        // Copy text helper with Toast Notification
+        function copyText(text) {
+            // ExecCommand copy fallback for reliable iframe execution
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            showToast();
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.classList.remove('translate-y-16', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+                
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-0', 'opacity-100');
+                    toast.classList.add('translate-y-16', 'opacity-0');
+                }, 2500);
+            }
+        }
+
+        // Initial setup on page load
+        window.onload = function() {
+            switchTab('home');
+        };
+    </script>
+</body>
+</html>
