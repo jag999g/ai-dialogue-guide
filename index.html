@@ -109,6 +109,9 @@
                 <button onclick="switchTab('agents')" id="nav-agents" class="nav-btn px-3 py-2 rounded-lg transition-all duration-200 text-slateOlive hover:text-sage hover:bg-sage-50">
                     <i class="fa-solid fa-diagram-project mr-1.5 opacity-70"></i>Агенты и локальный запуск
                 </button>
+                <button onclick="switchTab('models')" id="nav-models" class="nav-btn px-3 py-2 rounded-lg transition-all duration-200 text-slateOlive hover:text-sage hover:bg-sage-50">
+                    <i class="fa-solid fa-users mr-1.5 opacity-70"></i>Знакомство поближе
+                </button>
                 <button onclick="switchTab('dictionary')" id="nav-dictionary" class="nav-btn px-3 py-2 rounded-lg transition-all duration-200 text-slateOlive hover:text-sage hover:bg-sage-50">
                     <i class="fa-solid fa-bookmark mr-1.5 opacity-70"></i>Словарь и опоры
                 </button>
@@ -657,15 +660,12 @@
                         </p>
                     </div>
 
-                    <div class="rounded-2xl border border-sand p-5 space-y-3">
-                        <h4 class="font-serif font-bold text-base text-charcoal">Если захочется посмотреть шире</h4>
-                        <p class="text-sm text-slateOlive leading-relaxed">
-                            Хороших моделей сегодня намного больше, чем поместится на одной странице, — вот лишь два примера с интересным характером:
-                        </p>
-                        <ul class="text-sm text-slateOlive space-y-2 list-disc pl-5">
-                            <li><strong>Kimi</strong> — силён в чтении и разборе очень объёмных документов и отчётов целиком, внимательно удерживает мелкие детали в длинном тексте.</li>
-                            <li><strong>Mistral</strong> — европейская модель со сдержанным, лаконичным стилем; особенно хорошо чувствует европейские языки и отвечает без лишней многословности.</li>
-                        </ul>
+                    <div class="rounded-2xl border border-sand p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <h4 class="font-serif font-bold text-base text-charcoal">Если захочется посмотреть шире</h4>
+                            <p class="text-sm text-slateOlive leading-relaxed">Хороших собеседников гораздо больше — с другими можно познакомиться в отдельном разделе: GigaChat, Алиса AI, Kimi, Mistral, Copilot, а ещё шпаргалка «с чем к кому удобнее прийти».</p>
+                        </div>
+                        <button onclick="switchTab('models')" class="px-3 py-1.5 rounded-lg bg-sage text-white text-xs font-medium whitespace-nowrap self-start sm:self-auto">Знакомство поближе →</button>
                     </div>
 
                     <div class="bg-sage-50/70 p-6 rounded-2xl border border-sage/20 space-y-3">
@@ -1348,6 +1348,204 @@
                 <div class="text-xs sm:text-sm text-slateOlive bg-warmCard p-4 rounded-xl border border-sand">
                     <strong>Как попробовать при желании:</strong> Существуют удобные программы с понятным окном (например, <em>LM Studio</em> или <em>Ollama</em>), где можно выбрать открытую модель (Qwen, Gemma), скачать её в один клик и общаться без интернета.
                 </div>
+            </div>
+
+        </section>
+
+        <!-- ================= SECTION 4.5: ЗНАКОМСТВО ПОБЛИЖЕ ================= -->
+        <section id="tab-models" class="tab-content hidden space-y-10">
+
+            <div class="space-y-3 text-center max-w-2xl mx-auto">
+                <span class="text-xs font-semibold uppercase text-terracotta tracking-wider">Для тех, кому интересно</span>
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-charcoal">Знакомство поближе</h2>
+                <p class="text-slateOlive text-sm sm:text-base leading-relaxed">Этот раздел — для тех, кому стало интересно посмотреть шире. Хороших собеседников сегодня гораздо больше, чем поместится на одной странице, и здесь собраны лишь некоторые из них.</p>
+            </div>
+
+            <div class="bg-warmCard rounded-2xl p-4 sm:p-6 border border-sand flex flex-col sm:flex-row sm:items-center justify-between gap-4 max-w-3xl mx-auto">
+                <div class="text-xs sm:text-sm text-slateOlive">
+                    <i class="fa-solid fa-circle-info text-sage mr-2"></i>
+                    <span>Если вы только начинаете — смело пропустите этот раздел. Навык живого диалога важнее выбора модели: всё, чему учит путеводитель, одинаково работает с любым из собеседников.</span>
+                </div>
+                <button onclick="switchLesson('b3')" class="px-3 py-1.5 rounded-lg bg-sage text-white text-xs font-medium whitespace-nowrap self-start sm:self-auto">Урок Б-3</button>
+            </div>
+
+            <!-- Шпаргалка -->
+            <div class="bg-cardBg rounded-3xl p-6 sm:p-10 border border-sand shadow-sm space-y-6">
+                <div class="space-y-2">
+                    <span class="text-xs font-semibold uppercase text-terracotta tracking-wider">Шпаргалка</span>
+                    <h3 class="text-xl sm:text-2xl font-serif font-bold text-charcoal">С чем к кому удобнее прийти</h3>
+                </div>
+                <div class="text-sm">
+                    <div class="hidden md:grid md:grid-cols-[1.4fr_1fr_1.4fr] gap-4 px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-slateOlive border-b border-sand">
+                        <span>Ваша задача</span><span>С кем удобнее</span><span>Почему</span>
+                    </div>
+                    <div class="divide-y divide-sand">
+                        <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1.4fr] gap-1 md:gap-4 px-1 md:px-4 py-3">
+                            <span class="text-charcoal">Разобрать сумбур, выстроить логику</span>
+                            <span class="font-semibold text-sage"><span class="md:hidden font-normal text-slateOlive">С кем: </span>DeepSeek, Qwen</span>
+                            <span class="text-xs md:text-sm text-slateOlive">Чёткое пошаговое мышление, уверенный русский язык</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1.4fr] gap-1 md:gap-4 px-1 md:px-4 py-3">
+                            <span class="text-charcoal">Написать или отредактировать текст, найти интонацию</span>
+                            <span class="font-semibold text-sage"><span class="md:hidden font-normal text-slateOlive">С кем: </span>Claude</span>
+                            <span class="text-xs md:text-sm text-slateOlive">Внимание к стилю и формулировкам</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1.4fr] gap-1 md:gap-4 px-1 md:px-4 py-3">
+                            <span class="text-charcoal">Охватить большой разнородный материал: документы, записи, таблицы</span>
+                            <span class="font-semibold text-sage"><span class="md:hidden font-normal text-slateOlive">С кем: </span>Gemini</span>
+                            <span class="text-xs md:text-sm text-slateOlive">Удерживает очень большие объёмы и разные форматы</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1.4fr] gap-1 md:gap-4 px-1 md:px-4 py-3">
+                            <span class="text-charcoal">Обсудить свои книги, статьи, конспекты</span>
+                            <span class="font-semibold text-sage"><span class="md:hidden font-normal text-slateOlive">С кем: </span>NotebookLM</span>
+                            <span class="text-xs md:text-sm text-slateOlive">Отвечает только по вашим файлам и показывает источник</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1.4fr] gap-1 md:gap-4 px-1 md:px-4 py-3">
+                            <span class="text-charcoal">Найти свежую информацию и сразу проверить её</span>
+                            <span class="font-semibold text-sage"><span class="md:hidden font-normal text-slateOlive">С кем: </span>Perplexity, Алиса AI</span>
+                            <span class="text-xs md:text-sm text-slateOlive">Ищут в сети и дают ссылки на источники</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1.4fr] gap-1 md:gap-4 px-1 md:px-4 py-3">
+                            <span class="text-charcoal">Вопросы с учётом российских реалий: документы, деловые письма, законы</span>
+                            <span class="font-semibold text-sage"><span class="md:hidden font-normal text-slateOlive">С кем: </span>GigaChat, Алиса AI</span>
+                            <span class="text-xs md:text-sm text-slateOlive">Обучены на русскоязычном контексте</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1.4fr] gap-1 md:gap-4 px-1 md:px-4 py-3">
+                            <span class="text-charcoal">Прочитать один очень длинный документ целиком</span>
+                            <span class="font-semibold text-sage"><span class="md:hidden font-normal text-slateOlive">С кем: </span>Kimi</span>
+                            <span class="text-xs md:text-sm text-slateOlive">Держит детали и связи в объёмных текстах</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1.4fr] gap-1 md:gap-4 px-1 md:px-4 py-3">
+                            <span class="text-charcoal">Повседневные вопросы, мозговой штурм</span>
+                            <span class="font-semibold text-sage"><span class="md:hidden font-normal text-slateOlive">С кем: </span>ChatGPT, GigaChat</span>
+                            <span class="text-xs md:text-sm text-slateOlive">Разносторонние собеседники «на каждый день»</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1.4fr] gap-1 md:gap-4 px-1 md:px-4 py-3">
+                            <span class="text-charcoal">Короткий сдержанный ответ, европейские языки</span>
+                            <span class="font-semibold text-sage"><span class="md:hidden font-normal text-slateOlive">С кем: </span>Mistral</span>
+                            <span class="text-xs md:text-sm text-slateOlive">Лаконичный стиль, хорошо знает европейские языки</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-xs sm:text-sm text-slateOlive italic">Это ориентиры, а не правила. Большинство задач хорошо решит любой из этих собеседников — выбирайте того, чей стиль разговора вам ближе.</p>
+            </div>
+
+            <!-- Карточки собеседников -->
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <span class="text-xs font-semibold uppercase text-terracotta tracking-wider">Ещё собеседники</span>
+                    <h3 class="text-xl sm:text-2xl font-serif font-bold text-charcoal">Кроме основной пятёрки из урока Б-3</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <h4 class="font-serif font-bold text-lg text-sage">GigaChat</h4>
+                            <span class="text-xs px-2 py-0.5 rounded bg-sage-50 text-sage font-medium text-right">Российский контекст</span>
+                        </div>
+                        <p class="text-[11px] uppercase tracking-wider text-slateOlive">Сбер · Россия</p>
+                        <p class="text-xs text-slateOlive leading-relaxed">
+                            Хорошо понимает русский язык и российские реалии: деловые письма, документы, расчёты, законодательство. Запоминает ваши предпочтения и умеет сам искать информацию в интернете.
+                        </p>
+                        <dl class="text-xs text-slateOlive leading-relaxed space-y-1.5 pt-2 border-t border-sand">
+                            <div><dt class="inline font-semibold text-charcoal">Кроме текста:</dt> <dd class="inline">читает файлы, рисует картинки, ищет в сети.</dd></div>
+                            <div><dt class="inline font-semibold text-charcoal">Бесплатно:</dt> <dd class="inline">чат-помощник бесплатен.</dd></div>
+                            <div><dt class="inline font-semibold text-charcoal">Доступ из России:</dt> <dd class="inline"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-medium">напрямую</span></dd></div>
+                        </dl>
+                    </div>
+
+                    <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <h4 class="font-serif font-bold text-lg text-terracotta">Алиса AI</h4>
+                            <span class="text-xs px-2 py-0.5 rounded bg-terracotta/10 text-terracotta font-medium text-right">Рядом с поиском</span>
+                        </div>
+                        <p class="text-[11px] uppercase tracking-wider text-slateOlive">Яндекс · Россия</p>
+                        <p class="text-xs text-slateOlive leading-relaxed">
+                            Связана с поиском Яндекса, поэтому хорошо отвечает на вопросы о свежих событиях и даёт ссылки на источники. Удобна для быстрых повседневных вопросов, можно говорить голосом.
+                        </p>
+                        <dl class="text-xs text-slateOlive leading-relaxed space-y-1.5 pt-2 border-t border-sand">
+                            <div><dt class="inline font-semibold text-charcoal">Кроме текста:</dt> <dd class="inline">понимает фото и файлы, голосовой ввод. Картинки рисует отдельный сервис Яндекса — Шедеврум.</dd></div>
+                            <div><dt class="inline font-semibold text-charcoal">Бесплатно:</dt> <dd class="inline">базовый чат бесплатен, расширенный режим входит в подписку Яндекс Плюс.</dd></div>
+                            <div><dt class="inline font-semibold text-charcoal">Доступ из России:</dt> <dd class="inline"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-medium">напрямую</span> Вход через Яндекс ID.</dd></div>
+                        </dl>
+                    </div>
+
+                    <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <h4 class="font-serif font-bold text-lg text-indigo-800">Kimi</h4>
+                            <span class="text-xs px-2 py-0.5 rounded bg-indigo-50 text-indigo-800 font-medium text-right">Длинные документы</span>
+                        </div>
+                        <p class="text-[11px] uppercase tracking-wider text-slateOlive">Moonshot AI · Китай</p>
+                        <p class="text-xs text-slateOlive leading-relaxed">
+                            Читает и разбирает очень объёмные документы и отчёты целиком, не теряя мелких деталей. Может собрать из материалов презентацию или таблицу.
+                        </p>
+                        <dl class="text-xs text-slateOlive leading-relaxed space-y-1.5 pt-2 border-t border-sand">
+                            <div><dt class="inline font-semibold text-charcoal">Кроме текста:</dt> <dd class="inline">читает PDF и таблицы, ищет в интернете.</dd></div>
+                            <div><dt class="inline font-semibold text-charcoal">Бесплатно:</dt> <dd class="inline">основной чат бесплатен, продвинутые режимы ограничены.</dd></div>
+                            <div><dt class="inline font-semibold text-charcoal">Доступ из России:</dt> <dd class="inline"><span class="px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">уточняется</span></dd></div>
+                        </dl>
+                    </div>
+
+                    <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <h4 class="font-serif font-bold text-lg text-slate-800">Mistral</h4>
+                            <span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-800 font-medium text-right">Лаконичный европеец</span>
+                        </div>
+                        <p class="text-[11px] uppercase tracking-wider text-slateOlive">Mistral AI · Франция</p>
+                        <p class="text-xs text-slateOlive leading-relaxed">
+                            Короткие, сдержанные ответы без лишней многословности, хорошо знает европейские языки. Европейская компания, которая работает по строгим правилам ЕС о защите данных.
+                        </p>
+                        <dl class="text-xs text-slateOlive leading-relaxed space-y-1.5 pt-2 border-t border-sand">
+                            <div><dt class="inline font-semibold text-charcoal">Кроме текста:</dt> <dd class="inline">рисует картинки, читает документы, ищет в интернете.</dd></div>
+                            <div><dt class="inline font-semibold text-charcoal">Бесплатно:</dt> <dd class="inline">большинство возможностей бесплатны, с дневным лимитом.</dd></div>
+                            <div><dt class="inline font-semibold text-charcoal">Доступ из России:</dt> <dd class="inline"><span class="px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">уточняется</span></dd></div>
+                        </dl>
+                    </div>
+
+                    <div class="bg-cardBg p-5 rounded-2xl border border-sand space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <h4 class="font-serif font-bold text-lg text-emerald-800">Microsoft Copilot</h4>
+                            <span class="text-xs px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-medium text-right">Рядом с Windows</span>
+                        </div>
+                        <p class="text-[11px] uppercase tracking-wider text-slateOlive">Microsoft · США</p>
+                        <p class="text-xs text-slateOlive leading-relaxed">
+                            Встроен в Windows и браузер Edge, поэтому всегда под рукой. В платной версии Microsoft 365 работает прямо внутри Word и Excel.
+                        </p>
+                        <dl class="text-xs text-slateOlive leading-relaxed space-y-1.5 pt-2 border-t border-sand">
+                            <div><dt class="inline font-semibold text-charcoal">Кроме текста:</dt> <dd class="inline">рисует картинки, читает файлы, разговаривает голосом.</dd></div>
+                            <div><dt class="inline font-semibold text-charcoal">Бесплатно:</dt> <dd class="inline">базовый чат, картинки и файлы. Часть возможностей в 2026 году перешла в платные тарифы.</dd></div>
+                            <div><dt class="inline font-semibold text-charcoal">Доступ из России:</dt> <dd class="inline"><span class="px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">уточняется</span></dd></div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Открытые модели -->
+            <div class="bg-sage-50/70 p-6 rounded-2xl border border-sage/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="space-y-2">
+                    <h4 class="font-serif font-bold text-base text-charcoal"><i class="fa-solid fa-laptop text-sage mr-1.5"></i>Открытые модели</h4>
+                    <p class="text-sm text-slateOlive leading-relaxed">Многие модели можно скачать и запустить прямо на своём компьютере: Qwen, DeepSeek, GigaChat, Gemma (Google), Llama, Mistral. Зачем это делать и когда не стоит — в разделе Л-1.</p>
+                </div>
+                <button onclick="switchTab('agents')" class="px-3 py-1.5 rounded-lg bg-sage text-white text-xs font-medium whitespace-nowrap self-start sm:self-auto">Раздел Л-1</button>
+            </div>
+
+            <!-- Доступ из России -->
+            <div class="bg-cardBg rounded-3xl p-6 sm:p-10 border border-sand shadow-sm space-y-5">
+                <h3 class="text-xl sm:text-2xl font-serif font-bold text-charcoal">Кто открывается из России</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div class="p-4 rounded-xl bg-warmCard border border-sand space-y-2">
+                        <span class="text-xs px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-medium">напрямую</span>
+                        <p class="text-charcoal leading-relaxed">DeepSeek, Qwen, GigaChat, Алиса AI</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-warmCard border border-sand space-y-2">
+                        <span class="text-xs px-2 py-0.5 rounded bg-amber-50 text-amber-800 font-medium">нужен VPN</span>
+                        <p class="text-charcoal leading-relaxed">Claude, ChatGPT, Gemini, NotebookLM</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-warmCard border border-sand space-y-2">
+                        <span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">уточняется</span>
+                        <p class="text-charcoal leading-relaxed">Perplexity, Kimi, Mistral, Copilot</p>
+                    </div>
+                </div>
+                <p class="text-xs sm:text-sm text-slateOlive">Если какой-то сайт не открылся, вы ничего не сделали неправильно. Все принципы живого диалога одинаково работают с любым доступным вам собеседником.</p>
             </div>
 
         </section>
